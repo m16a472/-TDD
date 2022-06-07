@@ -98,9 +98,10 @@ class NewVisitorTest(LiveServerTestCase):
     def test_layout_and_stying(self):
         # Edith goes to the home page
         self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1021,768)
+        self.browser.set_window_size(1024,768)
 
-        #She notices the input box is nicely centered
+        #she notice the input box ins nicely centered
+       
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertAlmostEqual(
             inputbox.location['x']+inputbox.size['width']/2,
@@ -108,6 +109,17 @@ class NewVisitorTest(LiveServerTestCase):
             delta=10
         )
 
+        #She starts a new list and sees the input is nicely
+        #centered there too
+        inputbox.send_keys('testing')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x']+inputbox.size['width']/2,
+            512,
+            delta=10
+        )
         
 # She is invited to enter a to-do item straight away
 
